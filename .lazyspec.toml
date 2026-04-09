@@ -1,0 +1,22 @@
+[naming]
+pattern = "{type}-{n:03}-{title}.md"
+
+[directories]
+rfcs = "docs/rfcs"
+adrs = "docs/adrs"
+stories = "docs/stories"
+iterations = "docs/iterations"
+
+[templates]
+dir = ".lazyspec/templates"
+
+[tui]
+ascii_diagrams = false
+
+[tui.statusbar]
+enabled = true
+
+[certification]
+normalize = true
+
+[certification.overrides]
