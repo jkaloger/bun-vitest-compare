@@ -1,0 +1,6 @@
+.direnv/
+node_modules/
+.cache/
+result
+.next/
+test-results/
