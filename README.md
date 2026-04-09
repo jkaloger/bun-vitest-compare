@@ -15,7 +15,7 @@ Each set has 12 tests (7 unit, 5 integration). The test logic is identical; the 
 
 ### DOM environment
 
-Both runners use happy-dom. Vitest configures it via `vitest.config.ts` (`environment: "happy-dom"`), which sets up and tears down the DOM per file automatically. Bun has no built-in DOM environment support, so `test/setup.ts` manually constructs a happy-dom `Window` and copies its properties onto `globalThis`. This preload script is ~65 lines of workaround code, including patches for Symbol-keyed method binding and `getComputedStyle` stubs.
+Both runners use happy-dom. Vitest configures it via `vitest.config.ts` (`environment: "happy-dom"`). Bun uses `@happy-dom/global-registrator` in a preload script (`test/setup.ts`) to register browser globals before tests run.
 
 ### Module mocking
 
@@ -31,14 +31,14 @@ Measured on Apple Silicon (M-series), Bun 1.3.11, Vitest 4.1.3. Five consecutive
 
 | Runner                | Median wall-clock time | Notes                                                                     |
 | --------------------- | ---------------------- | ------------------------------------------------------------------------- |
-| `bun test`            | **137 ms**             | Single binary, no separate transform step                                 |
+| `bun test`            | **135 ms**             | Single binary, no separate transform step                                 |
 | `npm run test:vitest` | **300 ms**             | ~50 ms transform, ~115 ms import, ~38 ms tests, ~215 ms environment setup |
 
-Bun is ~2.2x faster end-to-end. The dominant cost in Vitest is happy-dom environment setup (~215 ms), which accounts for most of the gap. Actual test execution time in Vitest (~38 ms) is comparable to Bun's total.
+Bun is ~2.2x faster end-to-end. The dominant cost in Vitest is happy-dom environment setup (~215 ms), which accounts for most of the gap.
 
 ## Tradeoffs
 
-**Bun test** is faster and requires zero config for TypeScript/JSX. The cost is that DOM testing requires a manual preload script to bootstrap happy-dom onto globals, and that script is brittle (see the Symbol-keyed method binding workaround). `mock.module` is less mature than `vi.mock` and lacks features like `mockImplementationOnce` on module-level mocks.
+**Bun test** is faster and requires zero config for TypeScript/JSX. DOM testing uses `@happy-dom/global-registrator` in a preload script. `mock.module` is less mature than `vi.mock` and lacks features like `mockImplementationOnce` on module-level mocks.
 
 **Vitest** has first-class environment support (`happy-dom`, `jsdom`, per-file `@vitest-environment` directives), a richer mocking API, and a broader ecosystem of integrations (coverage, UI, browser mode). The cost is startup overhead from Vite's transform pipeline and environment bootstrapping.
 
