@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "setup": "bunx playwright install",
-    "test:e2e": "bunx playwright test"
+    "test:e2e": "bunx playwright test",
+    "test:vitest": "bunx vitest --config vitest.config.ts --run"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
@@ -15,20 +16,21 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "^4.1.4",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.3.0",
     "@types/node": "^22.14.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "happy-dom": "^17.4.4",
     "lucide-react": "^0.469.0",
     "postcss": "^8.5.3",
     "tailwind-merge": "^2.6.0",
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/dom": "^10.4.0",
-    "happy-dom": "^17.4.4",
-    "@playwright/test": "^1.52.0"
+    "vitest": "^4.1.3"
   }
 }
